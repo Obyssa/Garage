@@ -10,8 +10,6 @@
     <link href="style.css" rel="stylesheet"/>
     <script src="script.js"></script>
   </head>
-
-
   <body>
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
