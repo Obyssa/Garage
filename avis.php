@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,7 +12,8 @@
     <div>
         <?php include 'navbar2.php' ?>
     </div>
-
+    
+    
     <div class="container">
     <script src="https://apps.elfsight.com/p/platform.js" defer></script>
     <div class="elfsight-app-febbef4e-e778-4d84-97e9-383476b71683"></div>

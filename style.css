@@ -23,7 +23,6 @@
 /*Logo*/
 .logoGarage{
     margin-left: 6%;
-    height: 95%;
 }
 .facebook{
     height: 50px;
@@ -109,17 +108,20 @@
 }
 .buton:hover {
   transition: 1s ease-in-out;
-  background: #4F95DA;
+  background: #0d6efd;
   color: #FFFFFF;
 }
 .bouton{
     transition: none;
     color: #FFFFFF;
-    background-color: #4F95DA;
+    background-color: #0d6efd;
 }
 .bouton:hover{
     transition: none;
     
+}
+.btn{
+    margin-top: 3%;
 }
 
 
@@ -249,4 +251,20 @@
         border-bottom-left-radius: 15px;
         border-bottom-right-radius: 15px;
     }
+}
+/* Identifiant */
+.identifiant{
+    color: #fff;
+    --bs-btn-padding-x: 0.75rem;
+    --bs-btn-padding-y: 0.375rem;
+    font-size: 140%;
+    font-weight: 500;
+    line-height: 1.5;
+       
+    display: inline-block;
+    padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    margin-right: 2%;
 }

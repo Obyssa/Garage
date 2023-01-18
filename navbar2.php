@@ -34,7 +34,6 @@
             <button class="btn buton">
                 <img class="google" src="image/google.png"/>
             </button>
-        </a>
-                
+        </a>   
     </div>
 </nav>

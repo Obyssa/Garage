@@ -1,3 +1,5 @@
+<?php session_start();
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -45,6 +47,17 @@
         </div>
       </div> 
     </div> 
+    <?php 
+      if(empty($_SESSION)){
+        include "navconnexion.php";
+      }
+      else {
+        echo "<nav id = 'navbar2' class='navbar navbar-expand-lg navbar-light'>";
+        include "navconnecter.php"; 
+        echo "</div>";
+        echo "</nav>";
+      }
+    ?>
     <div class="container">
       <div class="row">
         <div class="col-sm-7">
