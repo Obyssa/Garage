@@ -11,44 +11,6 @@
   </head>
 
   <body>
-    <?php
-
-      // Récupération des données du formulaire
-
-      if(isset($_POST['submit'])){
-        /* récupération des valeurs */
-        $nom = $_POST['nom'];
-        $prenom = $_POST['prenom'];
-        $email = $_POST['adresseMail'];
-        $telephone = $_POST['telephone'];
-        $adresse = $_POST['adresse'];
-        $codeP = $_POST['postal'];
-        $pays = $_POST['pays'];
-        $password = $_POST['password'];
-        $password_confirm = $_POST['password_confirm'];
-        
-        include 'bdd.php';
-
-        if ($password != $password_confirm) {
-          echo "Les mots de passe ne correspondent pas";
-          exit;
-        }
-        else{
-          // Cryptage du mot de passe
-          $options = [
-            'cost' => 12,
-          ];
-          $password_hashed = password_hash($password, PASSWORD_BCRYPT, $options);
-
-          // Préparation de la requête d'insertion des données
-          $data = array($nom, $prenom, $email, $telephone, $adresse, $codeP, $pays, $password_hashed); 
-          $stmt = $conn->prepare("INSERT INTO utilisateur (nom, prenom, adresseMail, telephone, adresse, codePostal, pays, mdp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-          $stmt->execute($data);
-          echo "Merci de votre inscription";
-          header("location: connexion.php");
-        }
-      }
-    ?>
     <section class="h-100 gradient-form">
       <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -113,8 +75,64 @@
         </div>
       </div>
     </section>
-    
-    
+    <?php
+      // Récupération des données du formulaire
+      if(isset($_POST['submit'])){
+        /* récupération des valeurs */
+        $nom = $_POST['nom'];
+        $prenom = $_POST['prenom'];
+        $email = $_POST['adresseMail'];
+        if(empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)){
+          echo "Veuillez entrer une adresse email valide";
+          exit;
+        }
+        $telephone = $_POST['telephone'];
+        if(empty($telephone) || !preg_match("/^[0-9]{10}$/", $telephone)){
+          echo "Veuillez entrer un numéro de téléphone valide";
+          exit;
+        }
+        $adresse = $_POST['adresse'];
+        $codeP = $_POST['postal'];
+        $pays = $_POST['pays'];
+        $password = $_POST['password'];
+        $password_confirm = $_POST['password_confirm'];
+        
+        // Connexion à la base de données
+        $host = 'localhost';
+        $dbname = 'garagedestroisriviere';
+        $username = 'Admin';
+        $passworddb = 'Gdtrrdvevev';
+
+        $conn = new mysqli($host, $username, $passworddb, $dbname);
+
+        // Vérifier la connexion
+        if ($conn->connect_error) {
+          die("Connection failed: " . $conn->connect_error);
+        }
+        
+        $result = $conn->query("SELECT * FROM utilisateur WHERE adresseMail='$email' OR telephone='$telephone'");
+        if ($result->num_rows > 0) {
+          echo "Cette adresse email ou ce numéro de téléphone est déjà utilisé.";
+          exit;
+        }
+        if ($password != $password_confirm) {
+          echo "Les mots de passe ne correspondent pas";
+          exit;
+        }
+        else{
+          // Cryptage du mot de passe
+          $options = ['cost' => 12,];
+          $password_hashed = password_hash($password, PASSWORD_BCRYPT, $options);
+
+          // Préparation de la requête d'insertion des données
+          $data = array($nom, $prenom, $email, $telephone, $adresse, $codeP, $pays, $password_hashed); 
+          $stmt = $conn->prepare("INSERT INTO utilisateur (nom, prenom, adresseMail, telephone, adresse, codePostal, pays, mdp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+          $stmt->execute($data);
+          echo "Merci de votre inscription";
+          header("location: connexion.php");
+        }
+      }
+    ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
   </body>
 </html>
