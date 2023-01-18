@@ -4,12 +4,12 @@
     $host = 'localhost';
     $dbname = 'garagedestroisriviere';
     $username = 'Admin';
-    $password = '*******************';
+    $passworddb = 'Gdtrrdvevev';
 
-    try {
-        $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    } catch (PDOException $e) {
-        die("Erreur de connexion : " . $e->getMessage());
+    $conn = new mysqli($host, $username, $passworddb, $dbname);
+
+    // Vérifier la connexion
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
-
 ?>

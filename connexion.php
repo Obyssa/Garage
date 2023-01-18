@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -10,6 +11,56 @@
   </head>
   <body>
     
+    <form method="post" action="connexion.php">
+        <label for="adresseMail">Adresse email :</label>
+        <input type="email" id="adresseMail" name="adresseMail" required>
+        <br>
+        <label for="password">Mot de passe :</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <input type="submit" name="submit"value="Connexion">
+    </form>
+
+        <?php
+            if(isset($_POST['submit'])){
+                // Récupération des données du formulaire
+                $email = $_POST['adresseMail'];
+                $password = $_POST['password'];
+
+                include 'bdd.php';
+
+                // Préparation de la requête pour récupérer les informations de l'utilisateur
+                $stmt = $conn->prepare("SELECT * FROM utilisateur WHERE adresseMail = ?");
+                $stmt->bind_param("s", $email);
+
+                // Exécution de la requête
+                $stmt->execute();
+
+                // Récupération des résultats
+                $result = $stmt->get_result();
+
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+
+                    // Vérification du mot de passe
+                    if (password_verify($password, $row['mdp'])) {
+                        // Connexion réussie
+                        
+                        $_SESSION['nom'] = $row['nom'];
+                        $_SESSION['admin'] = $row['admin'];
+                        echo "niquel";
+                        header("Location: index.php");
+                    } else {
+                        echo "Adresse email ou mot de passe incorrect";
+                    }
+                }
+
+                // Fermeture de la connexion à la base de données
+                $stmt->close();
+                $conn->close();
+            }
+                
+        ?>
     <section class="h-100 gradient-form">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -35,7 +86,7 @@
                                         </div>
 
                                         <div class="d-flex align-items-center justify-content-center pb-4">
-                                            <button type="button" class="btn btn-outline-primary">Connextion</button>
+                                            <button type="button" class="btn btn-outline-primary">Connexion</button>
                                         </div>
 
                                         <div class="d-flex align-items-center justify-content-center pb-4">
@@ -43,7 +94,7 @@
                                         </div>
 
                                         <div class="d-flex align-items-center justify-content-center pb-4">
-                                            <button type="button" class="btn btn-outline-primary">Nouveau compte</button>
+                                            <a href="inscription.php"><button type="button" class="btn btn-outline-primary">Nouveau compte</button></a>
                                         </div>
                                     </form>
                                 </div>

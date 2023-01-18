@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,7 +12,28 @@
     <div>
     </div>
     <?php include 'navbar2.php'?>
+    
     <div class="container">
+    <?php 
+      if(empty($_SESSION)){
+        include "navconnexion.php";
+      }
+      else {
+        echo "<nav id = 'navbar2' class='navbar navbar-expand-lg navbar-light'>";
+        echo "<a>Vente Automobile</a>";
+        include "navconnecter.php"; 
+        
+        if($_SESSION['admin'] == 1){
+          echo "<a class='boutonNav'>";
+            echo "<button type='button' class='btn btn-primary'>
+                    Ajouter/Retiré
+                  </button>";
+          echo "</a>";
+        }
+        echo "</div>";
+        echo "</nav>";
+      }
+    ?>
         <?php include 'bdd.php'?>
         <?php
         
