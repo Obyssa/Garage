@@ -62,7 +62,7 @@
                                     
                                     $mailTo = "matheo.lapena@gmail.com";
                                     $headers = "De : ".$mailFrom;
-                                    $txt = "Vous avez reçu un e-mail de ".$name.".\n\n".$message;
+                                    $txt = "Vous avez reçu un e-mail de".$name.".\n\n".$message;
                                     
                                     mail($mailTo, $subject, $txt, $headers);
                                     header("Location: index.php?mailsent");
