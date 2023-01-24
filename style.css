@@ -268,3 +268,15 @@
     vertical-align: middle;
     margin-right: 2%;
 }
+
+.popup {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 200px;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid black;
+    display: none;
+}
+  

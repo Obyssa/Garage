@@ -100,7 +100,7 @@
             <hr/>
           </div>
           <div class="sousTitre">
-            Découvrer nos offre de voiture neuve ou d'occasion
+            Découvrer nos annonce de voiture neuve ou d'occasion
           </div>
           <br/>
           <div class="text">
@@ -115,7 +115,7 @@
             <br/>
             <a href="offre.php">
               <button type="button" class="btn btn-primary bouton">
-                Offre
+                Annonce
               </button>
             </a>
             <div class="sousTitre">   
