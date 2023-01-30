@@ -1,17 +1,25 @@
 <?php session_start(); 
-include 'bdd.php';
-$id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
-if ($id === false) {
-// traiter l'erreur, l'id n'est pas valide
-  echo "c'est pas bon";
+if (!isset($_COOKIE['username'])) {
+  session_destroy();
 }
-else {
-  $query = "SELECT * FROM utilisateur WHERE idUtilisateur = :id";
+$user_id = $_SESSION['nom']; // Récupération de l'identifiant de l'utilisateur à partir de la base de données
+$_SESSION['idUtilisateur'] = $user_id;
+if (isset($_SESSION['idUtilisateur'])) {
+  // L'utilisateur est connecté
+} else {
+  // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
+  header("Location: connexion.php");
+  exit;
+}
+
+include 'bdd.php';
+
+
+  $query = "SELECT * FROM utilisateur WHERE nom = '$user_id'";
   $stmt = $conn->prepare($query);
-  $stmt->bindParam(':id', $id, PDO::PARAM_INT);
   $stmt->execute();
   $utilisateur = $stmt->fetch();
-}
+
 if($utilisateur['admin'] == TRUE){
   ?>
   <!doctype html>
@@ -87,9 +95,9 @@ if($utilisateur['admin'] == TRUE){
                         <br>
                         <input type="file" name="image1" id="image1" class="form-control" accept="image/*" onchange="checkFile(this)">
                         </br>
-                        <input type="file" name="image2" id="image2" class="form-control" accept="image/*" disabled>
+                        <input type="file" name="image2" id="image2" class="form-control" accept="image/*" disabled required>
                         </br>
-                        <input type="file" name="image3" id="image3" class="form-control" accept="image/*" disabled>
+                        <input type="file" name="image3" id="image3" class="form-control" accept="image/*" disabled required>
                         </br>
                         <div class="d-flex align-items-center justify-content-center pb-4">
                           <input type="submit" class="btn btn-outline-primary" name="submit" value="Ajouter">
@@ -119,38 +127,38 @@ if($utilisateur['admin'] == TRUE){
           $prix = $_POST['prix'];
           //image 1
           $file1 = $_FILES['image1'];
-          $fileName = $file1['name'];
+          $fileName = uniqid().".".$file1['name'];
           $fileTmpName = $file1['tmp_name'];
           $fileSize = $file1['size'];
           $fileError = $file1['error'];
           $fileType = $file1['type'];
-          $fileDestination = 'image/' . $fileName;
+          $fileDestination = 'image/' .uniqid(). $fileName;
           move_uploaded_file($fileTmpName, $fileDestination);
           //image 2
           $file2 = $_FILES['image2'];
-          $fileName2 = $file2['name'];
+          $fileName2 = uniqid().".".$file2['name'];
           $fileTmpName2 = $file2['tmp_name'];
           $fileSize2 = $file2['size'];
           $fileError2 = $file2['error'];
           $fileType2 = $file2['type'];
-          $fileDestination2 = 'image/' . $fileName2;
+          $fileDestination2 = 'image/' .uniqid(). $fileName2;
           move_uploaded_file($fileTmpName2, $fileDestination2);
           //image 3
           $file3 = $_FILES['image3'];
-          $fileName3 = $file3['name'];
+          $fileName3 = uniqid().".".$file3['name'];
           $fileTmpName3 = $file3['tmp_name'];
           $fileSize3 = $file3['size'];
           $fileError3 = $file3['error'];
           $fileType3 = $file3['type'];
-          $fileDestination3 = 'image/' . $fileName3;
+          $fileDestination3 = 'image/' .uniqid(). $fileName3;
           move_uploaded_file($fileTmpName3, $fileDestination3);
           
           
-          $data = array($nom, $description, $etat, $boite, $kilometre, $prix, $anne, $fileName);
+          $data = array($nom, $description, $etat, $boite, $kilometre, $prix, $anne, $fileDestination);
           $stmt = $conn->prepare("INSERT INTO offre (nom, definition, etat, boite, kilometrage, prix, annee, url_img) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
           $stmt->execute($data);
           
-          $data = array($fileName, $fileName2, $fileName3);
+          $data = array($fileDestination, $fileDestination2, $fileDestination3);
           $stmt = $conn->prepare("INSERT INTO image (image1, image2, image3) VALUE (?, ?, ?)");
           $stmt->execute($data);
         }
@@ -173,7 +181,7 @@ if($utilisateur['admin'] == TRUE){
             echo "<div class='card'>";
             echo  "<div class='row no-gutters'>";
             echo   "<div class='col-md-4'>";
-            echo    "<img  class='card-img' src='image/" . $offre['url_img'] . "' alt='Image offre'>";
+            echo    "<img  class='card-img' src='" . $offre['url_img'] . "' alt='Image offre'>";
             echo   "</div>";
             echo   "<div class='col-md-8'>";
             echo    "<div class='card-body'>";

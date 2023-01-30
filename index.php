@@ -1,4 +1,7 @@
 <?php session_start();
+if (!isset($_COOKIE['username'])) {
+  session_destroy();
+}
 ?>
 <!doctype html>
 <html lang="en">
