@@ -1,4 +1,8 @@
-<?php session_start(); ?>
+<?php session_start(); 
+if (!isset($_COOKIE['username'])) {
+  session_destroy();
+}
+?>
 <!doctype html>
 <html lang="en">
     <head>
@@ -10,15 +14,6 @@
         <script src="script.js"></script>
     </head>
     <body>  
-        <form method="post" action="connexion.php">
-            <label for="adresseMail">Adresse email :</label>
-            <input type="email" id="adresseMail" name="adresseMail" required>
-            <br>
-            <label for="password">Mot de passe :</label>
-            <input type="password" id="password" name="password" required>
-            <br>
-            <input type="submit" name="submit"value="Connexion">
-        </form>
         <?php
             if(isset($_POST['submit'])){
                 // Récupération des données du formulaire
@@ -51,11 +46,29 @@
                         $_SESSION['nom'] = $row['nom'];
                         $_SESSION['admin'] = $row['admin'];
                         echo "niquel";
+                        // Définir le temps d'expiration du cookie à 5 minutes
+                        $expire = time() + 300;
+
+                        // Enregistrer le cookie sur l'ordinateur de l'utilisateur
+                        setcookie("username", $_SESSION['nom'], $expire);
+
+                        // Vérifier si le cookie a été enregistré
+                        if(isset($_COOKIE["username"])) {
+                        echo "Bienvenue " . $_COOKIE["username"];
+                        } else {
+                        echo "Cookie non défini";
+                        }
+                        // Détruire le cookie lorsque l'utilisateur est inactif pendant plus de 5 minutes
+                        if(time() > $expire) {
+                        setcookie("username", "", time() - 3600);
+                        echo "Cookie expiré";
+                        }
                         header("Location: index.php");
                     } else {
                         echo "Adresse email ou mot de passe incorrect";
                     }
                 }
+                
                 // Fermeture de la connexion à la base de données
                 $stmt->close();
                 $conn->close();
@@ -72,21 +85,19 @@
                                         <div class="text-center">
                                             <h4 class="mt-1 mb-5 pb-1">Page Connexion</h4>
                                         </div>
-                                        <form>
+                                        <form method="post" action="connexion.php">
                                             <p>Connectez-vous à votre compte</p>
-
+                                            
                                             <div class="form-outline mb-4">
-                                                <input type="email" id="form2Example11" class="form-control" placeholder="Nom Utilisateur" />
-                                                <label class="form-label" for="form2Example11"></label>
+                                                <input type="email" id="adresseMail" class="form-control" name="adresseMail" placeholder="Adresse Mail" required/>
                                             </div>
 
                                             <div class="form-outline mb-4">
-                                                <input type="password" id="form2Example22" class="form-control" placeholder="Mot de Passe"/>
-                                                <label class="form-label" for="form2Example22"></label>
+                                                <input type="password" id="password" class="form-control" name="password" placeholder="Mot de Passe"required/>
                                             </div>
 
                                             <div class="d-flex align-items-center justify-content-center pb-4">
-                                                <button type="button" class="btn btn-outline-primary">Connexion</button>
+                                                <input type="submit" name="submit" class="btn btn-outline-primary" value="Connexion">
                                             </div>
 
                                             <div class="d-flex align-items-center justify-content-center pb-4">
@@ -95,6 +106,9 @@
 
                                             <div class="d-flex align-items-center justify-content-center pb-4">
                                                 <a href="inscription.php"><button type="button" class="btn btn-outline-primary">Nouveau compte</button></a>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-center pb-4">
+                                                <a class="btn btn-outline-primary" href="index.php">Annuler</a>
                                             </div>
                                         </form>
                                     </div>

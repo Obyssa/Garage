@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php session_start(); 
+if (!isset($_COOKIE['username'])) {
+  session_destroy();
+}
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -19,7 +24,6 @@
               <div class="row g-0">
                 <div class="col-lg-6">
                   <div class="card-body p-md-5 mx-md-4">
-                    <a href="index.php">Annuler</a>
                     <div class="text-center">
                       <h4 class="mt-1 mb-5 pb-1">Page Inscription</h4>
                     </div>
@@ -60,6 +64,9 @@
                       <br>
                       <div class="d-flex align-items-center justify-content-center pb-4">
                         <input type="submit" class="btn btn-outline-primary" name="submit" value="S'inscrire">
+                      </div>
+                      <div class="d-flex align-items-center justify-content-center pb-4">
+                        <a class="btn btn-outline-primary" href="index.php">Annuler</a>
                       </div>
                     </form>                              
                   </div>

@@ -1,4 +1,8 @@
-<?php session_start();?>
+<?php session_start();
+if (!isset($_COOKIE['username'])) {
+  session_destroy();
+}
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -21,9 +25,9 @@
           include "navconnecter.php"; 
           
           if($_SESSION['admin'] == 1){
-            echo "<a class='boutonNav'>";
+            echo "<a class='boutonNav' href='gestionbien.php'>";
               echo "<button type='button' class='btn btn-primary'>
-                      Ajouter/Retiré
+                      Modifier
                     </button>";
             echo "</a>";
           }
@@ -50,7 +54,7 @@
           echo "<div class='card'>";
           echo  "<div class='row no-gutters'>";
           echo   "<div class='col-md-4'>";
-          echo    "<img  class='card-img' src='image/" . $offre['url_img'] . "' alt='Image offre'>";
+          echo    "<img  class='card-img' src='" . $offre['url_img'] . "' alt='Image offre'>";
           echo   "</div>";
           echo   "<div class='col-md-8'>";
           echo    "<div class='card-body'>";

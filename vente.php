@@ -1,4 +1,8 @@
-<?php session_start(); ?>
+<?php session_start();
+if (!isset($_COOKIE['username'])) {
+  session_destroy();
+}
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -42,9 +46,7 @@
           echo "<div id='carouselExampleSlidesOnly' class='carousel slide' data-bs-ride='carousel'>";
           echo "<div class='carousel-inner'>";
           
-                $images =   array("image1" => "image/".$image['image1'] ."",
-                                "image2" => "image/". $image['image2'] ."",
-                                "image3" => "image/". $image['image3'] ."");
+                $images =   array("image1" => $image['image1'], "image2" => $image['image2'], "image3" => $image['image3']);
                 $i = 0;
                 foreach($images as $image){
                   if($image != "image/"){
@@ -114,18 +116,7 @@
           echo "</div>";
           
         }
-      ?>
-
-      
-        
-
-
-
-
-
-
-
-
+      ?> 
     </div>
     <?php include 'footer.php'?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
