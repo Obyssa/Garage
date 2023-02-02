@@ -17,6 +17,10 @@
 .nav-item{
     margin-left: 5%;
 }
+.boutonNav{
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
 
 
 
@@ -89,7 +93,7 @@
     margin: auto;
     color: #FFFFFF;
     align-items: center;
-    width: 300px;
+    width: 100%;
 }
 
 
@@ -104,7 +108,7 @@
   border: none;
 }
 .boutonNav{
-    margin-right: 2%;
+    margin-right: 0.5%;
 }
 .buton:hover {
   transition: 1s ease-in-out;
@@ -120,9 +124,7 @@
     transition: none;
     
 }
-.btn{
-    margin-top: 3%;
-}
+
 
 
 
@@ -168,7 +170,9 @@
     width: 99%;
     
 }
-
+.blanc{
+    color: #FFFFFF;
+}
 
 
 /*footer*/
@@ -191,7 +195,8 @@
     
 }
 .descendre2{
-    margin-top: 20%;
+    margin-top: 11%;
+    margin-bottom: 12%;
 }
 
 
@@ -260,7 +265,8 @@
     font-size: 140%;
     font-weight: 500;
     line-height: 1.5;
-       
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
     display: inline-block;
     padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
     text-align: center;

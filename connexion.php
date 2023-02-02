@@ -1,7 +1,7 @@
-<?php session_start(); 
-if (!isset($_COOKIE['username'])) {
-  session_destroy();
-}
+<?php 
+    session_start();
+    session_destroy();
+    session_start(); 
 ?>
 <!doctype html>
 <html lang="en">
@@ -9,7 +9,7 @@ if (!isset($_COOKIE['username'])) {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Garage Des Trois Rivières</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"/>
         <link href="style.css" rel="stylesheet"/>
         <script src="script.js"></script>
     </head>
@@ -20,31 +20,22 @@ if (!isset($_COOKIE['username'])) {
                 $email = $_POST['adresseMail'];
                 $password = $_POST['password'];
                 // Connexion à la base de données
-                $host = 'localhost';
-                $dbname = 'garagedestroisriviere';
-                $username = 'Admin';
-                $passworddb = 'Gdtrrdvevev';
-
-                $conn = new mysqli($host, $username, $passworddb, $dbname);
-
-                // Vérifier la connexion
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                }
+                include 'bdd.php';
+                $data = array($email);
+                $query = "SELECT * FROM utilisateur WHERE adresseMail = ?";
                 // Préparation de la requête pour récupérer les informations de l'utilisateur
-                $stmt = $conn->prepare("SELECT * FROM utilisateur WHERE adresseMail = ?");
-                $stmt->bind_param("s", $email);
+                $stmt = $conn->prepare($query);
                 // Exécution de la requête
-                $stmt->execute();
+                $stmt->execute($data);
                 // Récupération des résultats
-                $result = $stmt->get_result();
-                if ($result->num_rows > 0) {
-                    $row = $result->fetch_assoc();
+                $utilisateur = $stmt->fetch();
+                
+                if (count($utilisateur) > 0) {
                     // Vérification du mot de passe
-                    if (password_verify($password, $row['mdp'])) {
+                    if (password_verify($password, $utilisateur['mdp'])) {
                         // Connexion réussie
-                        $_SESSION['nom'] = $row['nom'];
-                        $_SESSION['admin'] = $row['admin'];
+                        $_SESSION['nom'] = $utilisateur['nom'];
+                        $_SESSION['admin'] = $utilisateur['admin'];
                         echo "niquel";
                         // Définir le temps d'expiration du cookie à 5 minutes
                         $expire = time() + 300;
@@ -68,10 +59,10 @@ if (!isset($_COOKIE['username'])) {
                         echo "Adresse email ou mot de passe incorrect";
                     }
                 }
+                else{
+                    echo "Compte non-existant";
+                }
                 
-                // Fermeture de la connexion à la base de données
-                $stmt->close();
-                $conn->close();
             }       
         ?>
         <section class="h-100 gradient-form">
