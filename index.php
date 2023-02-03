@@ -117,7 +117,7 @@ else{
             <br/>
             <br/>
             <br/>
-            <a href="offre.php" class="d-flex justify-content-center">
+            <a href="annonce.php" class="d-flex justify-content-center">
               <button type="button" class="btn btn-primary bouton">
                 Annonce
               </button>

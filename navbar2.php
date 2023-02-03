@@ -10,7 +10,7 @@
             <a class="choix buton btn" href="index.php">Information</a>
         </li>
         <li class="nav-item">
-            <a class="choix buton btn" href="offre.php">Annonce</a>
+            <a class="choix buton btn" href="annonce.php">Annonce</a>
         </li>
         <li class="nav-item">
         <a class="choix buton btn" href="avis.php">Avis</a>
