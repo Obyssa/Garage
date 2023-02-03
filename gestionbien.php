@@ -2,6 +2,10 @@
 if (!isset($_COOKIE['username'])) {
   session_destroy();
 }
+else{
+  $expire = time() + 300;
+  setcookie("username", $_SESSION['nom'], $expire);
+}
 $user_id = $_SESSION['nom']; // Récupération de l'identifiant de l'utilisateur à partir de la base de données
 $_SESSION['idUtilisateur'] = $user_id;
 if (isset($_SESSION['idUtilisateur'])) {
@@ -43,72 +47,65 @@ if($utilisateur['admin'] == TRUE){
             <div class="col-xl-10">
               <div class="card rounded-3 text-black">
                 <div class="row g-0">
-                  <div class="col-lg-6">
-                    <div class="card-body p-md-5 mx-md-4">
-                      <div class="text-center">
-                        <h4 class="mt-1 mb-5 pb-1">Ajouter Bien</h4>
-                      </div>
-                      <form method="post" action="gestionbien.php" enctype="multipart/form-data">
-                          <div class="row">
-                            <div>
-                              <div class="form-outline mb-4">
-                                  <input type="text" id="nom form2Example11" class="form-control" name="nom" placeholder="Nom Offre" required/>
-                              </div>
-                            </div>
-                          </div>
-                          <div>
-                              <div class="form-outline mb-4">
-                                  <textarea id="information form2Example11" class="form-control" name="information" required></textarea>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-6">
-                                  <div class="form-outline mb-4">     
-                                      <select id = "boite form2Example11" class="form-select"name="boite">
-                                          <option value="0">Manuelle</option>
-                                          <option value="1">Automatique</option>
-                                      </select>
-                                  </div>
-                              </div>
-                              <div class="col-6">
-                                  <div class="form-outline mb-4">     
-                                      <select id = "etat form2Example11" class="form-select"name="etat">
-                                          <option value="0">Occasion</option>
-                                          <option value="1">Neuve</option>
-                                      </select>
-                                  </div>
-                              </div>
-                          </div>
+                  <div class="card-body p-md-5 mx-md-4">
+                    <div class="text-center">
+                      <h4 class="mt-1 mb-5 pb-1">Ajouter Bien</h4>
+                    </div>
+                    <form method="post" action="gestionbien.php" enctype="multipart/form-data">
                         <div class="row">
-                          <div class="col-6">
+                          <div>
                             <div class="form-outline mb-4">
-                              <input type="text" id="kilometre form2Example11" class="form-control" name="kilometre" placeholder="Kilometre"required/>
-                            </div>
-                          </div>
-                          <div class="col-6">
-                            <div class="form-outline mb-4">
-                              <input type="text" id="anne form2Example11" class="form-control" name="anne" placeholder="Année"required/>
+                                <input type="text" id="nom form2Example11" class="form-control" name="nom" placeholder="Nom Offre" required/>
                             </div>
                           </div>
                         </div>
-                        <input type="text" id="prix form2Example11" class="form-control" name="prix" placeholder="Prix"required/>
-                        <br>
-                        <input type="file" name="image1" id="image1" class="form-control" accept="image/*" onchange="checkFile(this)">
-                        </br>
-                        <input type="file" name="image2" id="image2" class="form-control" accept="image/*" disabled required>
-                        </br>
-                        <input type="file" name="image3" id="image3" class="form-control" accept="image/*" disabled required>
-                        </br>
-                        <div class="d-flex align-items-center justify-content-center pb-4">
-                          <input type="submit" class="btn btn-outline-primary" name="submit" value="Ajouter">
+                        <div>
+                            <div class="form-outline mb-4">
+                                <textarea id="information form2Example11" class="form-control" name="information" required></textarea>
+                            </div>
                         </div>
-                      </form>                              
-                    </div>
-                  </div>
-                  <div class="col-lg-6 d-flex align-items-center bg-indigo">
-                    <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-                      <img class="logoGarage"src="image/logo-garage-nom.png"/>
-                    </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-outline mb-4">     
+                                    <select id = "boite form2Example11" class="form-select"name="boite">
+                                        <option value="0">Manuelle</option>
+                                        <option value="1">Automatique</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-outline mb-4">     
+                                    <select id = "etat form2Example11" class="form-select"name="etat">
+                                        <option value="0">Occasion</option>
+                                        <option value="1">Neuve</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                      <div class="row">
+                        <div class="col-6">
+                          <div class="form-outline mb-4">
+                            <input type="text" id="kilometre form2Example11" class="form-control" name="kilometre" placeholder="Kilometre"required/>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-outline mb-4">
+                            <input type="text" id="anne form2Example11" class="form-control" name="anne" placeholder="Année"required/>
+                          </div>
+                        </div>
+                      </div>
+                      <input type="text" id="prix form2Example11" class="form-control" name="prix" placeholder="Prix"required/>
+                      <br>
+                      <input type="file" name="image1" id="image1" class="form-control" accept="image/*" onchange="checkFile(this)">
+                      </br>
+                      <input type="file" name="image2" id="image2" class="form-control" accept="image/*" disabled required>
+                      </br>
+                      <input type="file" name="image3" id="image3" class="form-control" accept="image/*" disabled required>
+                      </br>
+                      <div class="d-flex align-items-center justify-content-center pb-4">
+                        <input type="submit" class="btn btn-outline-primary" name="submit" value="Ajouter">
+                      </div>
+                    </form>                              
                   </div>
                 </div>
               </div>
@@ -213,7 +210,7 @@ if($utilisateur['admin'] == TRUE){
             echo   '<div class="col-2">';
             echo     '<div class="form-outline mb-4">';
             ?>
-              <?php echo "<a href='supprimer.php?id=$choix'>"?><button type='button' onclick='return confirm("Êtes-vous sûr de vouloir soumettre ce formulaire?");' class='btn btn-primary bouton'>Supprimer</button></a>
+              <?php echo "<a href='supprimer.php?id=$choix'>"?><button type='button' onclick='return confirm("Êtes-vous sûr de vouloir supprimer cette annonce ?");' class='btn btn-primary bouton'>Supprimer</button></a>
             <?php
             
             echo     '</div>';

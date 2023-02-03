@@ -1,4 +1,11 @@
-<?php session_start(); ?>
+<?php session_start(); 
+if (!isset($_COOKIE['username'])) {
+  session_destroy();
+}
+else{
+  $expire = time() + 300;
+  setcookie("username", $_SESSION['nom'], $expire);
+}?>
 <?php
  include 'bdd.php';
  $id = filter_var($_GET['id'], FILTER_VALIDATE_INT);

@@ -2,6 +2,10 @@
 if (!isset($_COOKIE['username'])) {
   session_destroy();
 }
+else{
+  $expire = time() + 300;
+  setcookie("username", $_SESSION['nom'], $expire);
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -38,9 +42,9 @@ if (!isset($_COOKIE['username'])) {
             </h3>
           </div>
           <div class="phraseBienvenue">
-            <h5>
+            <h6>
               VENTE VEHICULE NEUF OU OCCASION
-            </h5>
+            </h6>
           </div>
           <div class="wrapper">
               
@@ -53,10 +57,7 @@ if (!isset($_COOKIE['username'])) {
         include "navconnexion.php";
       }
       else {
-        echo "<nav id = 'navbar2' class='navbar navbar-expand-lg navbar-light'>";
         include "navconnecter.php"; 
-        echo "</div>";
-        echo "</nav>";
       }
     ?>
     <div class="container">
@@ -112,11 +113,11 @@ if (!isset($_COOKIE['username'])) {
             <br/>
             <br/>
             Un vendeur spécialisé se tient également à votre disposition pour vous renseigner concernant les 
-            véhicules d’occasion et neufs. 
+            véhicules neufs et d’occasion. 
             <br/>
             <br/>
             <br/>
-            <a href="offre.php">
+            <a href="annonce.php" class="d-flex justify-content-center">
               <button type="button" class="btn btn-primary bouton">
                 Annonce
               </button>
@@ -143,7 +144,7 @@ if (!isset($_COOKIE['username'])) {
             <br/>
             <br/>
             <div class="sousTitre">
-            <a href="avis.php">
+            <a href="avis.php" class="d-flex justify-content-center">
               <button type="button" class="btn btn-primary bouton">
                 Avis
               </button>

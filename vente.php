@@ -2,6 +2,10 @@
 if (!isset($_COOKIE['username'])) {
   session_destroy();
 }
+else{
+  $expire = time() + 300;
+  setcookie("username", $_SESSION['nom'], $expire);
+}
 ?>
 <!doctype html>
 <html lang="en">

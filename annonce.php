@@ -2,6 +2,10 @@
 if (!isset($_COOKIE['username'])) {
   session_destroy();
 }
+else{
+  $expire = time() + 300;
+  setcookie("username", $_SESSION['nom'], $expire);
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -20,19 +24,7 @@ if (!isset($_COOKIE['username'])) {
           include "navconnexion.php";
         }
         else {
-          echo "<nav id = 'navbar2' class='navbar navbar-expand-lg navbar-light'>";
-          echo "<a>Vente Automobile</a>";
-          include "navconnecter.php"; 
-          
-          if($_SESSION['admin'] == 1){
-            echo "<a class='boutonNav' href='gestionbien.php'>";
-              echo "<button type='button' class='btn btn-primary'>
-                      Modifier
-                    </button>";
-            echo "</a>";
-          }
-          echo "</div>";
-          echo "</nav>";
+          include "navconnecter.php";           
         }
       ?>
         <?php include 'bdd.php'?>
